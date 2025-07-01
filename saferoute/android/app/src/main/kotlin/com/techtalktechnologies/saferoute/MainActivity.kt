@@ -1,4 +1,4 @@
-package com.example.saferoute
+package com.techtalktechnologies.saferoute
 
 import io.flutter.embedding.android.FlutterActivity
 
