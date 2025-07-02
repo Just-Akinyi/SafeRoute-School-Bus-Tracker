@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class RoleButton extends StatelessWidget {
   final String role;
   final IconData icon;
-  final String routeName;
+  final VoidCallback onPressed;
 
   const RoleButton({
     super.key,
     required this.role,
     required this.icon,
-    required this.routeName,
+    required this.onPressed,
   });
 
   @override
@@ -22,9 +22,7 @@ class RoleButton extends StatelessWidget {
         backgroundColor: Colors.orange,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
-      onPressed: () {
-        Navigator.pushNamed(context, routeName);
-      },
+      onPressed: onPressed,
     );
   }
 }

@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:saferoute/screens/role_selection_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:saferoute/routes/route_names.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,12 +21,12 @@ class _SplashScreenState extends State<SplashScreen>
 
     _rotationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     )..repeat();
 
     _fadeController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1000),
     );
 
     _fadeAnimation = Tween<double>(
@@ -36,23 +35,23 @@ class _SplashScreenState extends State<SplashScreen>
     ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeIn));
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 0.3),
+      begin: const Offset(0, 0.3),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
 
     _fadeController.forward();
 
-    Future.delayed(Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          transitionDuration: Duration(milliseconds: 1500),
-          pageBuilder: (_, __, ___) => const RoleSelectionScreen(),
-          transitionsBuilder: (_, animation, __, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        ),
-      );
-    });
+    initializeApp();
+  }
+
+  Future<void> initializeApp() async {
+    // await FirebaseService.initialize(); // already in main.dart
+
+    // await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2)); // only animation delay
+    if (mounted) {
+      Navigator.of(context).pushReplacementNamed(RouteNames.roleSelection);
+    }
   }
 
   @override
@@ -82,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
                   child: RotationTransition(
                     turns: _rotationController,
                     child: CustomPaint(
-                      size: Size(150, 150),
+                      size: const Size(150, 150),
                       painter: CircularLoaderPainter(),
                     ),
                   ),
@@ -93,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen>
                     'assets/images/logo.png',
                     width: 150,
                     height: 150,
-                    filterQuality: FilterQuality.high, // 🔥 sharpens the image
+                    filterQuality: FilterQuality.high,
                   ),
                 ),
               ],
@@ -115,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen>
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // required for ShaderMask to apply
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -138,8 +137,9 @@ class CircularLoaderPainter extends CustomPainter {
         Paint()
           ..strokeWidth = strokeWidth + 4
           ..style = PaintingStyle.stroke
+          // ..color = Colors.orange.withOpacity(0.3)
           ..color = Colors.orange.withValues(alpha: 0.3)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, 8);
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
 
     canvas.drawCircle(center, radius, glowPaint);
 
@@ -151,14 +151,13 @@ class CircularLoaderPainter extends CustomPainter {
           ..shader = SweepGradient(
             colors: [Colors.deepOrange, Colors.amber],
             startAngle: 0,
-            endAngle: 3.14 * 2,
-            tileMode: TileMode.clamp,
+            endAngle: 2 * 3.14,
           ).createShader(Rect.fromCircle(center: center, radius: radius));
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       0,
-      3.14 * 1.5,
+      1.5 * 3.14,
       false,
       arcPaint,
     );
