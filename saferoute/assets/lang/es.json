@@ -1,0 +1,13 @@
+{
+  "login": "Iniciar sesión",
+  "signup": "Registrarse",
+  "phone": "Número de teléfono",
+  "send_code": "Enviar código",
+  "verify_login": "Verificar e iniciar sesión",
+  "logout": "Cerrar sesión",
+  "select_language": "Seleccionar idioma",
+  "english": "Inglés",
+  "swahili": "Swahili",
+  "welcome": "Bienvenido a SafeRoute",
+  "select_role": "Seleccione su rol"
+}

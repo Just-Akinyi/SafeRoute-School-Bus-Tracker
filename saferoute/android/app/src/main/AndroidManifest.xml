@@ -1,10 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.techtalktechnologies.saferoute">
 
+     <!-- ✅ internet permission -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="saferoute"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+          <!-- Required for Google Sign-In -->
+        <meta-data
+            android:name="com.google.android.gms.client_id"
+            android:value="@string/default_web_client_id" />
+            <!-- ✅ Required for Google Play Services version -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name="com.techtalktechnologies.saferoute.MainActivity"
             android:exported="true"

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
-import 'signup_screen.dart';
 import 'phone_login_screen.dart';
 import '../role_selection_screen.dart';
 
@@ -20,7 +19,7 @@ class _AuthScreenState extends State<AuthScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -70,11 +69,7 @@ class _AuthScreenState extends State<AuthScreen>
         automaticallyImplyLeading: false,
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: "Login"),
-            Tab(text: "Sign Up"),
-            Tab(text: "Phone Login"),
-          ],
+          tabs: const [Tab(text: "Login"), Tab(text: "Phone Login")],
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -83,11 +78,7 @@ class _AuthScreenState extends State<AuthScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          LoginScreen(role: widget.role),
-          SignupScreen(role: widget.role),
-          const PhoneLoginScreen(),
-        ],
+        children: [LoginScreen(role: widget.role), const PhoneLoginScreen()],
       ),
     );
   }

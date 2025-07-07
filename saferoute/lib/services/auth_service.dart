@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,36 +22,10 @@ class AuthService {
       return result.user;
     } on FirebaseAuthException catch (e) {
       print("Sign-in error: ${e.message}");
-      return null;
+      rethrow; // or return null / custom error
     } catch (e) {
       print("Unexpected error during sign-in: $e");
-      return null;
-    }
-  }
-
-  // Sign up with email, password, and role
-  Future<User?> signUp(String email, String password, String role) async {
-    try {
-      final credential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      await credential.user!.sendEmailVerification();
-
-      await _firestore.collection('users').doc(credential.user!.uid).set({
-        'email': email,
-        'role': role,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-
-      return credential.user;
-    } on FirebaseAuthException catch (e) {
-      print("Sign-up error: ${e.code} - ${e.message}");
-      return null;
-    } catch (e) {
-      print("Unexpected error during sign-up: $e");
-      return null;
+      return null; //same to rethrow
     }
   }
 
@@ -120,8 +95,78 @@ class AuthService {
     }
   }
 
+  // Sign in with Google
+  Future<User?> signInWithGoogle() async {
+    try {
+      final googleSignIn = GoogleSignIn(scopes: ['email']);
+      print("🔐 Attempting Google sign-in...");
+
+      final googleUser =
+          await googleSignIn.signIn(); // 👈 USE the same instance
+      if (googleUser == null) {
+        print("⚠️ Google sign-in cancelled by user.");
+        return null;
+      }
+
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final result = await _auth.signInWithCredential(credential);
+      final user = result.user;
+
+      if (user == null) return null;
+
+      // 🔐 Check if user exists in Firestore
+      final doc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+      if (!doc.exists) {
+        await _auth.signOut(); // ❌ Deny access
+        throw Exception("Access denied. Contact administrator.");
+      }
+
+      return user;
+    } catch (e) {
+      print("Google Sign-In error: $e");
+      return null;
+    }
+  }
+
   // Send password reset email
   Future<void> sendPasswordResetEmail(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
 }
+// Sign up with email, password, and role
+// Future<User?> signUp(String email, String password, String role) async {
+  //   try {
+  //     final credential = await _auth.createUserWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+
+  //     // ✅ Send verification email
+  //     await credential.user!.sendEmailVerification();
+
+  //     // ✅ Add role to Firestore
+  //     await _firestore.collection('users').doc(credential.user!.uid).set({
+  //       'email': email,
+  //       'role': role,
+  //       'createdAt': FieldValue.serverTimestamp(),
+  //     });
+
+  //     return credential.user;
+  //   } on FirebaseAuthException catch (e) {
+  //     print("Sign-up error: ${e.code} - ${e.message}");
+  //     rethrow;
+  //   } catch (e) {
+  //     print("Unexpected error during sign-up: $e");
+  //     throw Exception("Unexpected error: $e"); // ✅ FIXED: Throw here as well
+  //   }
+  // }

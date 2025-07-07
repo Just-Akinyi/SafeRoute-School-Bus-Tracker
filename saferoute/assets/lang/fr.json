@@ -1,0 +1,13 @@
+{
+  "login": "Connexion",
+  "signup": "S'inscrire",
+  "phone": "Numéro de téléphone",
+  "send_code": "Envoyer le code",
+  "verify_login": "Vérifier et se connecter",
+  "logout": "Se déconnecter",
+  "select_language": "Choisir la langue",
+  "english": "Anglais",
+  "swahili": "Swahili",
+  "welcome": "Bienvenue à SafeRoute",
+  "select_role": "Sélectionnez votre rôle"
+}

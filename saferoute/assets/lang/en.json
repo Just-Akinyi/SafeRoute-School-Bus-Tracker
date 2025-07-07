@@ -1,0 +1,13 @@
+{
+  "login": "Login",
+  "signup": "Sign Up",
+  "phone": "Phone Number",
+  "send_code": "Send Code",
+  "verify_login": "Verify & Login",
+  "logout": "Logout",
+  "select_language": "Select Language",
+  "english": "English",
+  "swahili": "Swahili",
+  "welcome": "Welcome to SafeRoute",
+  "select_role": "Select Your Role" 
+}

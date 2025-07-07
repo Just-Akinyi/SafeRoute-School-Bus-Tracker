@@ -33,6 +33,8 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled = true// ✅ This must use '=' in Kotlin!
+
     }
 
     buildTypes {
@@ -66,4 +68,5 @@ dependencies {
 
     // Optional: analytics, messaging, etc.
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.android.gms:play-services-auth:20.7.0") // ✅ REQUIRED for Google Sign-In
 }

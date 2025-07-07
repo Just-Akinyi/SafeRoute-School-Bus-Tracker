@@ -1,0 +1,13 @@
+{
+  "login": "تسجيل الدخول",
+  "signup": "إنشاء حساب",
+  "phone": "رقم الهاتف",
+  "send_code": "إرسال الرمز",
+  "verify_login": "تحقق وتسجيل الدخول",
+  "logout": "تسجيل الخروج",
+  "select_language": "اختر اللغة",
+  "english": "الإنجليزية",
+  "swahili": "السواحيلية",
+  "welcome": "مرحبًا بك في SafeRoute",
+  "select_role": "اختر دورك"
+}

@@ -1,0 +1,13 @@
+{
+  "login": "登录",
+  "signup": "注册",
+  "phone": "电话号码",
+  "send_code": "发送验证码",
+  "verify_login": "验证并登录",
+  "logout": "登出",
+  "select_language": "选择语言",
+  "english": "英语",
+  "swahili": "斯瓦希里语",
+  "welcome": "欢迎使用 SafeRoute",
+  "select_role": "选择您的角色"
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saferoute/screens/unknown_role_screen.dart';
 import 'package:saferoute/services/auth_service.dart';
 import 'package:saferoute/screens/dashboard/admin_dashboard.dart';
 import 'package:saferoute/screens/dashboard/driver_dashboard.dart';
@@ -13,7 +14,6 @@ class DashboardRouter extends StatelessWidget {
     final user = auth.currentUser;
 
     if (user == null) {
-      // Firebase user not yet loaded or null
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
@@ -33,13 +33,22 @@ class DashboardRouter extends StatelessWidget {
         }
 
         final role = snapshot.data!;
+
+        // ✅ Optional debug log
+        if (!['Admin', 'Driver', 'Parent'].contains(role)) {
+          print("❌ Unknown role '$role' for UID: ${user.uid}");
+        }
+
+        // ✅ Role-based routing
         switch (role) {
           case 'Admin':
             return const AdminDashboard();
           case 'Driver':
             return const DriverDashboard();
-          default:
+          case 'Parent':
             return const ParentDashboard();
+          default:
+            return const UnknownRoleScreen();
         }
       },
     );

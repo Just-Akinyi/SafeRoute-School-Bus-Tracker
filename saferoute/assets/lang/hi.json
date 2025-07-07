@@ -1,0 +1,13 @@
+{
+  "login": "लॉग इन करें",
+  "signup": "साइन अप करें",
+  "phone": "फ़ोन नंबर",
+  "send_code": "कोड भेजें",
+  "verify_login": "सत्यापित करें और लॉगिन करें",
+  "logout": "लॉग आउट",
+  "select_language": "भाषा चुनें",
+  "english": "अंग्रेज़ी",
+  "swahili": "स्वाहिली",
+  "welcome": "SafeRoute में आपका स्वागत है",
+  "select_role": "अपनी भूमिका चुनें"
+}

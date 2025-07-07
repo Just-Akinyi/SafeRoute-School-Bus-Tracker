@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:saferoute/services/auth_service.dart';
 import 'package:saferoute/screens/dashboard/dashboard_router.dart';
-import 'package:saferoute/screens/auth/email_verification_screen.dart';
 import 'package:saferoute/screens/auth/password_reset_screen.dart';
+import 'package:saferoute/widgets/google_login_button.dart';
 
 class LoginScreen extends StatefulWidget {
   final String role;
@@ -38,30 +38,16 @@ class _LoginScreenState extends State<LoginScreen> {
       final user = await _authService.signIn(email, password);
 
       if (user != null) {
-        final verified = await _authService.isEmailVerified();
-        if (verified) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('✅ Login successful!'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const DashboardRouter()),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Email not verified. Please check your inbox.'),
-              backgroundColor: Colors.orange,
-            ),
-          );
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const EmailVerificationScreen()),
-          );
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('✅ Login successful!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const DashboardRouter()),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -120,6 +106,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: const Text("Forgot Password?"),
                     ),
+                    const SizedBox(height: 20),
+                    const Divider(),
+                    const SizedBox(height: 12),
+                    Center(child: Text("Or login with")),
+                    const SizedBox(height: 12),
+                    GoogleSvgButton(expectedRole: widget.role),
                   ],
                 ),
           ],
